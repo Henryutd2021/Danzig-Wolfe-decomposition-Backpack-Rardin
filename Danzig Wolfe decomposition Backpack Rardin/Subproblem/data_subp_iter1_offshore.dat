@@ -1,0 +1,23 @@
+data;
+# This is the data file for off-shore subproblem; you will need to create another for the domestic sub-problem
+set MODE :=  one two;
+set LINKING := shipping handling;
+set CON site_contract site_mode_1;
+
+param dual_var:=
+ shipping 0 handling 0;
+ 
+param profit_c :=  
+ one 14 two 8 ;
+ 
+ param q_dual_convex := 176;
+ 
+ param A: one two:=
+ shipping 2.1 2.1
+ handling 0.5 0.5;
+ 
+ param T:    one two :=
+site_contract 1 1
+site_mode_1   1 0;
+
+param t:= site_contract 22  site_mode_1 20;

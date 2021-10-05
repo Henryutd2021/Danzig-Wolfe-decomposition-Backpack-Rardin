@@ -1,0 +1,24 @@
+set MODE; # mode is one or two
+set SITE; # ofshore or domestic 
+set P{SITE}; # number of extreme points generated in each site; it is a set indexed in another previously defined set
+set D; # number of extreme directions generated only in the offshore site because it is the only one with open feasible region
+
+param profit{MODE,SITE} > 0; #this is c super s in principle 13.15
+param a{MODE,SITE} >= 0; # this is to be used in the first linking constraint which is shipping
+param d{MODE,SITE} >= 0; # this is for the second linking constraint which is handling
+param shipping_budget;
+param handling_budget;
+
+param x{s in SITE, MODE, P[s]} >= 0 ; #These are supplied from the subproblem solution in each mode
+param deltax{MODE,D} >= 0; #These are supplied from the offshore subproblem solution
+
+var lambda{s in SITE, P[s]} >= 0;
+var mu{D} >= 0;
+
+maximize Total_Profit:  sum {s in SITE} ( sum{i in MODE} (profit[i,s]*(sum {j in P[s]} lambda[s,j]*x[s,i,j] + sum{k in D} mu[k]*deltax[i,k]) ) ); 
+
+
+subject to Shipping:  sum {s in SITE} (sum{i in MODE} (a[i,s]*(sum {j in P[s]} lambda[s,j]*x[s,i,j] + sum{k in D} mu[k]*deltax[i,k]) ) ) <= shipping_budget;
+subject to Handling:  sum {s in SITE} (sum{i in MODE} (d[i,s]*(sum {j in P[s]} lambda[s,j]*x[s,i,j] + sum{k in D} mu[k]*deltax[i,k]) ) ) <= handling_budget; 
+
+subject to Convexity{s in SITE}: sum {j in P[s]} lambda[s,j] = 1;

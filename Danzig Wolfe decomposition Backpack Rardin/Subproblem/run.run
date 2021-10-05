@@ -1,0 +1,5 @@
+reset;
+model model_sub_domestic.mod;
+data data_subp_iter1_domestic.dat;
+option solver gurobi;
+solve;

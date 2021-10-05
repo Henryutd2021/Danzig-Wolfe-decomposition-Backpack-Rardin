@@ -1,0 +1,47 @@
+data;
+set MODE :=  one two;
+set SITE :=  offshore domestic;
+
+# for solving the master at iteration 1 is 1 point per each site; then at iteration 2 is one for offshore and 2 for domestic
+# at iteration 3 is two for offshore and 3 for domestic 
+set P[offshore] := 1;
+set P[domestic]:= 1;
+
+#set D:=  #number of extreme directions generated and it will be only for offshore but in iteration 1 it is not needed
+
+
+param profit:
+	 offshore	domestic :=
+	one  	14  11
+	two   8   7;
+	
+param a :
+ offshore	domestic :=
+	one  	2.1  0.75
+	two   2.1   0.75;
+	
+param d :
+ offshore	domestic :=
+	one  0.5 0.5
+	two   0.5 0.5;
+
+param shipping_budget := 60;
+param handling_budget := 25;
+
+param x :=
+ 
+ [offshore, *, *] :   
+       1 :=
+	one   0  
+	two   22 
+	
+  [domestic, *, *] :
+        1 :=
+    one  0  	
+	two  12;
+# Here at some iterations an extreme direction will be provided	
+#param deltax:
+     #one 
+     #two ;
+	
+	
